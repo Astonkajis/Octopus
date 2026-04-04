@@ -13,8 +13,8 @@ indent_size = 2
 dotnet_style_allow_multiple_blank_lines_experimental = false
 dotnet_diagnostic.IDE2000.severity = error
 
-# General formatting errors
-dotnet_diagnostic.IDE0055.severity = error
+# unnecessary assignment to a variable
+dotnet_diagnostic.IDE0060.severity = error
 
 # Require async methods to end with Async
 dotnet_naming_rule.async_methods_must_end_with_async.severity = error
