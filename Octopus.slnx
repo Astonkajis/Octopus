@@ -1,6 +1,10 @@
 <Solution>
-  <Folder Name="/src/" />
-  <Folder Name="/src/1 App/">
-    <Project Path="Octopus.Api.csproj" />
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Octopus.Core/Octopus.Core.csproj" Id="2e13a6d7-5bd2-4965-8086-82b02101f97a" />
+    <Project Path="src/Octopus.Api/Octopus.Api.csproj" />
   </Folder>
 </Solution>

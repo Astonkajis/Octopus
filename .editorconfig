@@ -1,0 +1,31 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+[*.cs]
+# Disallow multiple consecutive blank lines
+dotnet_style_allow_multiple_blank_lines_experimental = false
+dotnet_diagnostic.IDE2000.severity = error
+
+# General formatting errors
+dotnet_diagnostic.IDE0055.severity = error
+
+# Require async methods to end with Async
+dotnet_naming_rule.async_methods_must_end_with_async.severity = error
+
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.applicable_accessibilities = *
+dotnet_naming_symbols.async_methods.required_modifiers = async
+
+dotnet_naming_style.async_suffix.required_suffix = Async
+dotnet_naming_style.async_suffix.capitalization = pascal_case
+
+dotnet_naming_rule.async_methods_must_end_with_async.symbols = async_methods
+dotnet_naming_rule.async_methods_must_end_with_async.style = async_suffix
+dotnet_naming_rule.async_methods_must_end_with_async.severity = error
