@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Octopus.Core\Octopus.Core.csproj" />
+    <ProjectReference Include="..\Octopus.Persistence\Octopus.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

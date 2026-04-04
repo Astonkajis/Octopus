@@ -1,7 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Octopus.Api.Internal;
+using Octopus.Persistence;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var dbConfig = OctopusDbConfig.Get(builder.Configuration);
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -14,6 +18,8 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+builder.Services.AddDbContext<OctopusDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString(dbConfig.OctopusCore)));
 
 var app = builder.Build();
 
