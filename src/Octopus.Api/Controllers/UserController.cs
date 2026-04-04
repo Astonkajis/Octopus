@@ -30,7 +30,7 @@ namespace Octopus.Api.Controllers
         [HttpGet("id")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<User> GetUserByIdAsync(Guid Id)
+        public async Task<User> GetUserByIdAsync(Ulid Id)
         {
             return new() { Id = Id };
         }
