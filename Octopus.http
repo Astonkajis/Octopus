@@ -1,0 +1,6 @@
+@Octopus_HostAddress = http://localhost:5228
+
+GET {{Octopus_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
