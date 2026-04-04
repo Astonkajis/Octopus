@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Octopus.Core;
 using Octopus.Core.User;
 
 namespace Octopus.Persistence
@@ -16,5 +18,24 @@ namespace Octopus.Persistence
         /// Gets or sets the collection of users in the database context.
         /// </summary>
         public DbSet<User> Users { get; set; }
+
+        /// inheritdoc />
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var ulidConverter = new ValueConverter<Ulid, string>(
+                v => v.ToString(),
+                v => Ulid.Parse(v)
+            );
+
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Entity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                      .HasConversion(ulidConverter);
+            });
+        }
     }
 }

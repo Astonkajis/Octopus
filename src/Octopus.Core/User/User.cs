@@ -9,5 +9,15 @@
         /// Gets or sets the name associated with the current instance.
         /// </summary>
         public string Name { get; set; } = default!;
+
+        /// <summary>
+        /// Creates a new instance of the User class with the specified name.
+        /// </summary>
+        /// <param name="name">The name to assign to the new user. Cannot be null.</param>
+        /// <returns>A new User entity.</returns>
+        public static User Create(string name)
+        {
+            return new User() { Name = name };
+        }
     }
 }
