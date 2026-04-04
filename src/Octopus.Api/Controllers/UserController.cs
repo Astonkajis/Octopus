@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Octopus.Core.User;
+using Octopus.Persistence;
 
 namespace Octopus.Api.Controllers
 {
     /// <summary>
     /// Provides API endpoints for retrieving user information.
     /// </summary>
-    public class UserController : BaseApiController
+    /// <remarks>
+    /// Initializes a new instance of the UserController class using the specified database context.
+    /// </remarks>
+    /// <param name="DbContext">The database context to be used for data access operations. Cannot be null.</param>
+    public class UserController(OctopusDbContext DbContext) : BaseApiController
     {
         /// <summary>
         /// Retrieves a collection of all users asynchronously.
@@ -15,24 +21,42 @@ namespace Octopus.Api.Controllers
         /// <response code="200">Returns a list of users.</response>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public Task<List<User>> GetUsersAsync()
         {
-            return [];
+            return DbContext.Users.ToListAsync();
         }
 
         /// <summary>
         /// Gets user by ID asynchronously.
         /// </summary>
-        /// <param name="Id">User ID</param>
+        /// <param name="id">User ID.</param>
+        /// <param name="ct">Cancellation token.</param>
         /// <returns>User.</returns>
         /// <response code="200">Returns user.</response>
         /// <response code="404">User not found.</response>
         [HttpGet("id")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<User> GetUserByIdAsync(Ulid Id)
+        public Task<User?> GetUserByIdAsync(Ulid id, CancellationToken ct)
         {
-            return new() { Id = Id };
+            return DbContext.Users.FirstOrDefaultAsync(x => x.Id == id, ct);
+        }
+
+        /// <summary>
+        /// Creates a new user with the specified name asynchronously.
+        /// </summary>
+        /// <param name="name">The name to assign to the new user. Cannot be null or empty.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the unique identifier of the
+        /// newly created user.</returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(Ulid), StatusCodes.Status200OK)]
+        public async Task<Ulid> CreateUserAsync(string name)
+        {
+            User user = Octopus.Core.User.User.Create(name);
+
+            await DbContext.Users.AddAsync(user);
+
+            return user.Id;
         }
     }
 }
