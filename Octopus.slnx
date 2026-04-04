@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="Octopus.Api.csproj" />
+  <Folder Name="/src/" />
+  <Folder Name="/src/1 App/">
+    <Project Path="Octopus.Api.csproj" />
+  </Folder>
 </Solution>
