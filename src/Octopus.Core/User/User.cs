@@ -1,10 +1,13 @@
 ﻿namespace Octopus.Core.User
 {
-    public class User
+    /// <summary>
+    /// Represents a user.
+    /// </summary>
+    public class User : Entity
     {
-        public int Id { get; set; }
-
+        /// <summary>
+        /// Gets or sets the name associated with the current instance.
+        /// </summary>
         public string Name { get; set; } = default!;
-
     }
 }
