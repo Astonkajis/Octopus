@@ -3,7 +3,9 @@ using Octopus.Core.User;
 
 namespace Octopus.Api.Controllers
 {
-    /// inheritdoc
+    /// <summary>
+    /// Provides API endpoints for retrieving user information.
+    /// </summary>
     public class UserController : BaseApiController
     {
         /// <summary>
