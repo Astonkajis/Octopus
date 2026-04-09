@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Octopus.Core.User;
 using Octopus.Persistence;
@@ -20,26 +21,33 @@ namespace Octopus.Api.Controllers
         /// <returns>Enumerable collection of users. The collection is empty if no users are found.</returns>
         /// <response code="200">Returns a list of users.</response>
         [HttpGet]
+        [OutputCache(Duration = 60)]
         [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
-        public Task<List<User>> GetUsersAsync()
+        public async Task<ActionResult<List<User>>> GetUsersAsync()
         {
-            return DbContext.Users.ToListAsync();
+            return Ok(await DbContext.Users.ToListAsync());
         }
 
         /// <summary>
         /// Gets user by ID asynchronously.
         /// </summary>
         /// <param name="id">User ID.</param>
-        /// <param name="ct">Cancellation token.</param>
         /// <returns>User.</returns>
         /// <response code="200">Returns user.</response>
         /// <response code="404">User not found.</response>
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public Task<User?> GetUserByIdAsync(Ulid id, CancellationToken ct)
+        public async Task<ActionResult<User>> GetUserByIdAsync(Ulid id)
         {
-            return DbContext.Users.FirstOrDefaultAsync(x => x.Id == id, ct);
+            var user = await DbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         /// <summary>
@@ -50,13 +58,13 @@ namespace Octopus.Api.Controllers
         /// newly created user.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(Ulid), StatusCodes.Status200OK)]
-        public async Task<Ulid> CreateUserAsync(string name)
+        public async Task<ActionResult<Ulid>> CreateUserAsync(string name)
         {
             User user = Octopus.Core.User.User.Create(name);
 
             await DbContext.Users.AddAsync(user);
 
-            return user.Id;
+            return Ok(user.Id);
         }
     }
 }
