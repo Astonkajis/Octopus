@@ -62,7 +62,8 @@ namespace Octopus.Api.Controllers
         {
             User user = Octopus.Core.User.User.Create(name);
 
-            await DbContext.Users.AddAsync(user);
+            await DbContext.AddAsync(user);
+            await DbContext.SaveChangesAsync();
 
             return Ok(user.Id);
         }
