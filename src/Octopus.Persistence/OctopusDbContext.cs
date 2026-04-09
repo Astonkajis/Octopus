@@ -11,13 +11,13 @@ namespace Octopus.Persistence
     /// <remarks>
     /// Initializes a new instance of the OctopusDbContext class.
     /// </remarks>
-    public sealed class OctopusDbContext(DbContextOptions<OctopusDbContext> options) : DbContext(options)
+    public sealed class OctopusDbContext(DbContextOptions<OctopusDbContext> options)
+        : DbContext(options)
     {
-
         /// <summary>
-        /// Gets or sets the collection of users in the database context.
+        /// Gets the collection of users in the database context.
         /// </summary>
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users => Set<User>();
 
         /// inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
