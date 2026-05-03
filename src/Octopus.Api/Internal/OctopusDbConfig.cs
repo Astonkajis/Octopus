@@ -5,7 +5,7 @@
     /// </summary>
     public class OctopusDbConfig
     {
-        private const string SectionName = "ConnectionStrings";
+        private const string _sectionName = "ConnectionStrings";
 
         /// <summary>
         /// Octopus Core database connection string.
@@ -21,7 +21,7 @@
         public static OctopusDbConfig Get(IConfiguration configuration)
         {
             var config = new OctopusDbConfig();
-            configuration.GetSection(SectionName).Bind(config);
+            configuration.GetSection(_sectionName).Bind(config);
 
             return config;
         }
