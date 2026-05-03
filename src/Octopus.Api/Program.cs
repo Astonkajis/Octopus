@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 builder.Services.AddDbContext<OctopusDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString(dbConfig.OctopusCore)));
+    options.UseNpgsql(dbConfig.OctopusCore));
 
 var app = builder.Build();
 
